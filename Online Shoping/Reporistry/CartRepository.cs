@@ -1,4 +1,5 @@
-﻿using Online_Shoping.Models;
+﻿using Microsoft.EntityFrameworkCore;
+using Online_Shoping.Models;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -11,6 +12,7 @@ namespace Online_Shoping.Reporistry
         {
             this.context = context;
         }
+
         public List<Cart> GetAll()
         {
             return context.carts.ToList();
@@ -18,6 +20,7 @@ namespace Online_Shoping.Reporistry
 
         public int insert(Cart cart)
         {
+
             context.carts.Add(cart);
             return context.SaveChanges();
         }
@@ -40,11 +43,17 @@ namespace Online_Shoping.Reporistry
             return 0;
         }
 
-        public int delete(int id)
+        public int delete(int userid)
         {
-            Cart oldcart = GetById(id);
+
+            Cart oldcart = GetById(userid);
             context.carts.Remove(oldcart);
             return context.SaveChanges();
+        }
+
+        public List<Cart> getcartbyuserid(string userid)
+        {
+           return context.carts.Include(c => c.product).Where(b => b.user_id == userid).ToList();
         }
     }
 }
