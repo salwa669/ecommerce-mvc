@@ -27,7 +27,7 @@ namespace Online_Shoping.Models
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer(@"Data Source=DESKTOP-HO7F0A8\SQLEXPRESS;Initial Catalog=OnlineShopping;Integrated Security=True");
+            optionsBuilder.UseSqlServer(@"Data Source=(local);Initial Catalog=OnlineShopping;Integrated Security=True");
         }
 
       
