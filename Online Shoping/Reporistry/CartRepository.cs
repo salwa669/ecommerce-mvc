@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Online_Shoping.Reporistry
 {
-    public class CartRepository: ICartRepository
+    public class CartRepository : ICartRepository
     {
         Context context;
         public CartRepository(Context context)

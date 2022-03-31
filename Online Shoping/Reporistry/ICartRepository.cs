@@ -2,7 +2,7 @@
 
 namespace Online_Shoping.Reporistry
 {
-    public interface ICartRepository: IReporistry<Cart>
+    public interface ICartRepository : IReporistry<Cart>
     {
     }
 }
