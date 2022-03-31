@@ -52,7 +52,7 @@ namespace Online_Shoping.Controllers
             return View(newuser);
         }
 
-        public async Task<IActionResult> SignOut()
+        public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Register");

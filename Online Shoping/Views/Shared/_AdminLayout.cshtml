@@ -22,6 +22,9 @@
                 <div class="input-group">
                     <input class="form-control" type="text" placeholder="Search for..." aria-label="Search for..." aria-describedby="btnNavbarSearch" />
                     <button class="btn btn-primary" id="btnNavbarSearch" type="button"><i class="fas fa-search"></i></button>
+                     <a class="navbar-brand ps-3" href="@Url.Action("Create","Role")">Add Role</a>
+            <a class="navbar-brand ps-3" href="@Url.Action("RegisterAdmin","Account")">Add Admin</a>
+            <a class="navbar-brand ps-3" href="@Url.Action("Logout","Account")">Log out</a>
                 </div>
             </form>
             <!-- Navbar-->
@@ -130,5 +133,6 @@
         <script src="~/AdminStyle/assets/demo/chart-bar-demo.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" crossorigin="anonymous"></script>
         <script src="~/AdminStyle/js/datatables-simple-demo.js"></script>
+        @RenderSection("Scripts", required: false)
     </body>
 </html>
