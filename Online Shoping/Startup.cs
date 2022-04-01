@@ -36,6 +36,8 @@ namespace Online_Shoping
             services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<Context>();
             services.AddScoped<IProduct, ProductReporistry>();
             services.AddScoped<ICatogory, CatogeryReporsitry>();
+            services.AddScoped<ICartRepository, CartRepository>();
+            services.AddScoped<IOrderRepositry, OrderRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
