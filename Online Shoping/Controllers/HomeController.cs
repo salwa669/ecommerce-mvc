@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using Online_Shoping.Models;
+using Online_Shoping.Reporistry;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,15 +13,17 @@ namespace Online_Shoping.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
-
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ICatogory categoryReprositry;
+        public HomeController(ILogger<HomeController> logger,ICatogory categoryReprositry)
         {
             _logger = logger;
+            this.categoryReprositry = categoryReprositry;
         }
 
         public IActionResult Index()
         {
-            return View();
+            List<Category> categories = categoryReprositry.GetAll();
+            return View(categories);
         }
 
         public IActionResult Privacy()

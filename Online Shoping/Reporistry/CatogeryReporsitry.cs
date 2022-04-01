@@ -11,9 +11,11 @@ namespace Online_Shoping.Reporistry
         {
             context = c;
         }
-        public int delete(int Id)
+        public int delete(int id)
         {
-            throw new System.NotImplementedException();
+            Category category = GetById(id);
+            context.categories.Remove(category);
+            return context.SaveChanges();
         }
 
         public List<Category> GetAll()
@@ -21,14 +23,32 @@ namespace Online_Shoping.Reporistry
             return context.categories.ToList();
         }
 
-        public int insert(Category item)
+        public Category GetById(int id)
         {
-            throw new System.NotImplementedException();
+            return context.categories.FirstOrDefault(c => c.id == id);
         }
 
-        public int update(int Id, Category item)
+        public int insert(Category x)
         {
-            throw new System.NotImplementedException();
+            context.categories.Add(x);
+            return context.SaveChanges();
+        }
+
+        public int update(int id, Category x)
+        {
+            Category category = GetById(id);
+            if (category != null)
+            {
+                category.name = x.name;
+                return context.SaveChanges();
+            }
+            return 0;
+        }
+        public List<Product> GetProductsByCatId(int catid)
+        {
+            List<Product> products =
+            context.products.Where(c => c.category_id == catid).ToList();
+            return products;
         }
     }
 }

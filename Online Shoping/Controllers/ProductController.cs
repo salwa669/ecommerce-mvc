@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.SignalR;
+using Online_Shoping.Hubs;
 using Online_Shoping.Models;
 using Online_Shoping.Reporistry;
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Online_Shoping.Controllers
 {
@@ -11,10 +14,12 @@ namespace Online_Shoping.Controllers
 
         IProduct p;
         ICatogory c;//cateogry interface
-        public ProductController(IProduct pp,ICatogory cc)
+        private readonly IHubContext<ProductHub> productHub;
+        public ProductController(IProduct pp,ICatogory cc, IHubContext<ProductHub> productHub)
         {
             p = pp;
             c = cc;
+            this.productHub = productHub;
         }
         public IActionResult Index()
         {
@@ -34,13 +39,14 @@ namespace Online_Shoping.Controllers
             return View(new Product());
         }
         [HttpPost]
-        public IActionResult NewProduct(Product product)
+        public async Task<IActionResult> NewProduct(Product product)
         {
             try
             {
                 if (ModelState.IsValid==true)
                 {
                     int effectedrows = p.insert(product);
+                    await productHub.Clients.All.SendAsync("AddNewProduct", product);
                     if (effectedrows >= 1)
                     {
                         return RedirectToAction("index");

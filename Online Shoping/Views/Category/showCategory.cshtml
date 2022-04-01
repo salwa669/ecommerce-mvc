@@ -1,0 +1,37 @@
+﻿@model List<Category>
+@{
+    SelectList CatList = new SelectList(Model, "id", "name");
+}
+@{
+    Layout = "_CategoryLayout";
+}
+   <select name="Cate" id="Cate" asp-items="CatList"class="srchTxt"
+       onchange="GetProducts()">
+       <option value="0">All</option>
+   
+    </select>
+<div id="div1"></div>
+    @section Scripts{
+    <script>
+        function GetProducts(){
+            console.log($("#Cate").val());
+            var Cat_id=$("#Cate").val();
+            if(Cat_id!=0){
+               $("#std").html("");
+                $.ajax(
+                    {
+                        url: "/Category/SearchCatId",
+                        data:{"cattid":Cat_id},
+                        success: function(result){
+                            for(let item of result){
+                                console.log(item);
+                               // $("#std").append("<option value="+item.id+">"+item.name+"</option>");
+                             $("#div1").html(item.name);
+                            }                               
+                        }
+                    });
+            }
+        }
+    </script>
+}
+

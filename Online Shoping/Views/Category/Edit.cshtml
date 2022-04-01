@@ -1,0 +1,15 @@
+﻿@model Category
+@{
+    Layout = "_AdminLayout";
+}
+<h1>Edit</h1>
+<form method="post" action="/Category/SaveEdit/@Model.id">
+    <div>
+        <label asp-for="name"></label>
+        <input asp-for="name" class="form-control" />
+    </div>
+        <br />
+    <input type="submit" value="Save" class="btn btn-success" />
+</form>
+
+

@@ -17,10 +17,12 @@ namespace Online_Shoping.Controllers
             this.userManager = userManager;
             this.signInManager = signInManager;
         }
+
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(AccountRegisterViewModel newuser)

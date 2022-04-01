@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Online_Shoping.Hubs;
 using Online_Shoping.Models;
 using Online_Shoping.Reporistry;
 using System;
@@ -27,6 +28,7 @@ namespace Online_Shoping
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
+            services.AddSignalR();
             services.AddDbContext<Context>(options =>
             {
                 options.UseSqlServer(Configuration.GetConnectionString("Cs"));
@@ -55,6 +57,8 @@ namespace Online_Shoping
 
             app.UseEndpoints(endpoints =>
             {
+                endpoints.MapHub<ProductHub>("ProductHub");
+                endpoints.MapHub<CategoryHub>("CategoryHub");
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id?}");

@@ -1,8 +1,107 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model List<Category>
+@{
+    SelectList CatList = new SelectList(Model, "id", "name");
 }
-
-<div class="text-center">
+   <select name="Cate" id="Cate" asp-items="CatList"class="srchTxt"
+       onchange="GetProducts()">
+       <option value="0">All</option>
+    </select>
+<div style="display:flex; flex-wrap: wrap;margin-left:50px"id="div1"class="text-center">
     <h1 class="display-4">Welcome</h1>
     <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
 </div>
+@section Scripts{
+    <script>
+        function GetProducts(){
+            console.log($("#Cate").val());
+            var Cat_id=$("#Cate").val();
+            if(Cat_id!=0){
+               $("#div1").html("");
+                $.ajax(
+                    {
+                        url: "/Category/SearchCatId",
+                        data:{"cattid":Cat_id},
+                        success: function(result){
+                            for(let item of result){
+             $("#div1").append(`
+<div class="tab-content">
+
+	<div class="tab-pane  active" id="blockView">
+		<ul class="thumbnails">
+			<li class="span3">
+			  <div class="thumbnail">
+				<a href="product_details.html"><img src="themes/images/products/3.jpg" alt=""/></a>
+				<div class="caption">
+				  <h5>`+item.name+`</h5>
+				  <p> 
+					I'm a paragraph. Click here 
+				  </p>
+				   <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> 
+                   <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> 
+                   <a class="btn btn-primary" href="#">`+item.price+` &euro;</a></h4>
+				</div>
+			  </div>
+			</li>
+		  </ul>
+	</div>
+</div>
+
+</div>
+</div>
+</div>
+</div> &nbsp;&nbsp;&nbsp;`);
+                                    }
+                                }
+                              });
+                }
+        }
+    </script>
+}
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/3.1.7/signalr.min.js">
+    </script>
+<script>
+    var hubConnection=
+    new signalR.HubConnectionBuilder().withUrl("/ProductHub").build();
+      var hubConnection=
+    new signalR.HubConnectionBuilder().withUrl("/CategoryHub").build();
+    hubConnection.on("AddNewProduct",function(obj){
+        console.log(obj);
+        document.getElementById("div1").innerHTML+=`
+<div class="tab-content">
+
+	<div class="tab-pane  active" id="blockView">
+		<ul class="thumbnails">
+			<li class="span3">
+			  <div class="thumbnail">
+				<a href="product_details.html"><img src="themes/images/products/3.jpg" alt=""/></a>
+				<div class="caption">
+				  <h5>`+obj.name+`</h5>
+				  <p> 
+					I'm a paragraph. Click here 
+				  </p>
+				   <h4 style="text-align:center"><a class="btn" href="product_details.html"> <i class="icon-zoom-in"></i></a> 
+                   <a class="btn" href="#">Add to <i class="icon-shopping-cart"></i></a> 
+                   <a class="btn btn-primary" href="#">`+obj.price+` &euro;</a></h4>
+				</div>
+			  </div>
+			</li>
+		  </ul>
+	</div>
+</div>
+
+</div>
+</div>
+</div>
+</div> &nbsp;&nbsp;&nbsp;`
+
+    });
+    hubConnection.on("AddNewCategory",function(obj){
+        console.log(obj);
+        document.getElementById("Cate").innerHTML+="<option>"+obj.name+"</option>"
+           });
+       hubConnection.start().then(function(){
+        console.log("Hub Success");
+    });
+
+</script>
